@@ -1745,9 +1745,14 @@ export type Timestamptz_Comparison_Exp = {
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users';
+  clerk_id?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['timestamptz']['output'];
   email: Scalars['String']['output'];
+  first_name?: Maybe<Scalars['String']['output']>;
   id: Scalars['uuid']['output'];
+  last_name?: Maybe<Scalars['String']['output']>;
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   username: Scalars['String']['output'];
   /** An array relationship */
@@ -1827,9 +1832,14 @@ export type Users_Bool_Exp = {
   _and?: InputMaybe<Array<Users_Bool_Exp>>;
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
+  clerk_id?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
+  first_name?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  last_name?: InputMaybe<String_Comparison_Exp>;
+  last_seen?: InputMaybe<Timestamptz_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   username?: InputMaybe<String_Comparison_Exp>;
   workout_logs?: InputMaybe<Workout_Logs_Bool_Exp>;
@@ -1840,6 +1850,8 @@ export type Users_Bool_Exp = {
 
 /** unique or primary key constraints on table "users" */
 export enum Users_Constraint {
+  /** unique or primary key constraint on columns "clerk_id" */
+  UsersClerkIdKey = 'users_clerk_id_key',
   /** unique or primary key constraint on columns "email" */
   UsersEmailKey = 'users_email_key',
   /** unique or primary key constraint on columns "id" */
@@ -1850,9 +1862,14 @@ export enum Users_Constraint {
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
+  clerk_id?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
   workout_logs?: InputMaybe<Workout_Logs_Arr_Rel_Insert_Input>;
@@ -1862,9 +1879,14 @@ export type Users_Insert_Input = {
 /** aggregate max on columns */
 export type Users_Max_Fields = {
   __typename?: 'users_max_fields';
+  clerk_id?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   email?: Maybe<Scalars['String']['output']>;
+  first_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  last_name?: Maybe<Scalars['String']['output']>;
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
@@ -1872,9 +1894,14 @@ export type Users_Max_Fields = {
 /** aggregate min on columns */
 export type Users_Min_Fields = {
   __typename?: 'users_min_fields';
+  clerk_id?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   email?: Maybe<Scalars['String']['output']>;
+  first_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  last_name?: Maybe<Scalars['String']['output']>;
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
@@ -1904,9 +1931,14 @@ export type Users_On_Conflict = {
 
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
+  clerk_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
+  first_name?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  last_name?: InputMaybe<Order_By>;
+  last_seen?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   username?: InputMaybe<Order_By>;
   workout_logs_aggregate?: InputMaybe<Workout_Logs_Aggregate_Order_By>;
@@ -1921,11 +1953,21 @@ export type Users_Pk_Columns_Input = {
 /** select columns of table "users" */
 export enum Users_Select_Column {
   /** column name */
+  ClerkId = 'clerk_id',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Email = 'email',
   /** column name */
+  FirstName = 'first_name',
+  /** column name */
   Id = 'id',
+  /** column name */
+  LastName = 'last_name',
+  /** column name */
+  LastSeen = 'last_seen',
+  /** column name */
+  Name = 'name',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -1934,9 +1976,14 @@ export enum Users_Select_Column {
 
 /** input type for updating data in table "users" */
 export type Users_Set_Input = {
+  clerk_id?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1951,9 +1998,14 @@ export type Users_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Users_Stream_Cursor_Value_Input = {
+  clerk_id?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1961,11 +2013,21 @@ export type Users_Stream_Cursor_Value_Input = {
 /** update columns of table "users" */
 export enum Users_Update_Column {
   /** column name */
+  ClerkId = 'clerk_id',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Email = 'email',
   /** column name */
+  FirstName = 'first_name',
+  /** column name */
   Id = 'id',
+  /** column name */
+  LastName = 'last_name',
+  /** column name */
+  LastSeen = 'last_seen',
+  /** column name */
+  Name = 'name',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -3287,8 +3349,8 @@ export function useGetWorkoutPlanLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetWorkoutPlanQuery, GetWorkoutPlanQueryVariables>(GetWorkoutPlanDocument, options);
         }
-export function useGetWorkoutPlanSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetWorkoutPlanQuery, GetWorkoutPlanQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetWorkoutPlanSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetWorkoutPlanQuery, GetWorkoutPlanQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetWorkoutPlanQuery, GetWorkoutPlanQueryVariables>(GetWorkoutPlanDocument, options);
         }
 export type GetWorkoutPlanQueryHookResult = ReturnType<typeof useGetWorkoutPlanQuery>;
