@@ -1,7 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
-// File: app/api/webhooks/clerk/route.ts
 import { Webhook } from 'svix';
 
 import { gql } from '@apollo/client';
@@ -50,6 +49,7 @@ async function upsertUserInHasura(
   last_name: string
 ) {
   try {
+    console.log('UPSERT DATA', clerkId, email, lastSeen, first_name, last_name);
     await graphQLClient.request(UPSERT_USER, {
       clerk_id: clerkId,
       email,
@@ -114,6 +114,7 @@ export async function POST(req: Request) {
       (email: any) => email.id === evt.data.primary_email_address_id
     );
     if (primaryEmail) {
+      console.log('Primary Email', primaryEmail);
       await upsertUserInHasura(
         clerkId,
         primaryEmail.email_address,
@@ -128,6 +129,10 @@ export async function POST(req: Request) {
     { message: 'Webhook received and processed' },
     { status: 200 }
   );
+}
+
+export async function GET() {
+  return NextResponse.json({ message: 'Webhook endpoint is working' });
 }
 
 // Define the structure of the webhook event

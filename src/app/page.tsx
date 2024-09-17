@@ -3,8 +3,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
 
 export default async function Home() {
-  const { userId, getToken } = auth();
-  console.log('TOKENNJJ', await getToken({ template: 'hasura' }));
+  const { userId } = auth();
   if (!userId) {
     redirect('/sign-in');
   }
