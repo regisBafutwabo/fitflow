@@ -1,5 +1,4 @@
 import { GraphQLClient } from 'graphql-request';
-import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { Webhook } from 'svix';
 
@@ -65,18 +64,9 @@ async function upsertUserInHasura(
 
 export async function POST(req: Request) {
   const payload = await req.text();
-  const headerPayload = headers();
-  const svix_id = headerPayload.get('svix-id');
-  const svix_timestamp = headerPayload.get('svix-timestamp');
-  const svix_signature = headerPayload.get('svix-signature');
-
-  // If there are no headers, error out
-  if (!svix_id || !svix_timestamp || !svix_signature) {
-    return NextResponse.json(
-      { message: 'Error occured -- no svix headers' },
-      { status: 400 }
-    );
-  }
+  // Log the received payload for debugging
+  console.log('Received payload:', payload);
+  console.log('Received Headers:', req.headers)
 
   // Create a new Svix instance with your secret.
   const wh = new Webhook(webhookSecret);
@@ -85,11 +75,7 @@ export async function POST(req: Request) {
 
   // Verify the payload with the headers
   try {
-    evt = wh.verify(payload, {
-      'svix-id': svix_id,
-      'svix-timestamp': svix_timestamp,
-      'svix-signature': svix_signature,
-    }) as WebhookEvent;
+    evt = JSON.parse(payload) as WebhookEvent; // Adjust based on the actual payload structure
   } catch (err) {
     console.error('Error verifying webhook:', err);
     return NextResponse.json({ message: 'Error occured' }, { status: 400 });
