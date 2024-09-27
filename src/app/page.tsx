@@ -1,6 +1,9 @@
 import { redirect } from 'next/navigation';
 
+// import { client } from '@/lib/apollo-client';
 import { auth } from '@clerk/nextjs/server';
+
+import { Main } from './components/Main';
 
 export default async function Home() {
   const { userId } = auth();
@@ -8,9 +11,19 @@ export default async function Home() {
     redirect('/sign-in');
   }
 
+  // const handleWorkoutPlanChange = async () => {
+  //   // const selectedPlanId = event.target.value;
+  //   // if (selectedPlanId) {
+  //   //   const { data: todayExercisesData } = await client.query<GetTodayExercisesQuery>({
+  //   //     query: GET_TODAY_EXERCISES,
+  //   //     variables: { dayOfTheWeek: day, workoutPlanId: selectedPlanId },
+  //   //   });
+  //   //   // Assuming there's a function to handle the display of today's exercises
+  //   //   displayTodayExercises(todayExercisesData.workout_days);
+  //   // }
+  // };
+
   return (
-    <div className='container mx-auto p-4'>
-      <h1 className='text-3xl font-bold mb-8'>Welcome</h1>
-    </div>
+    <Main/>
   );
 }
