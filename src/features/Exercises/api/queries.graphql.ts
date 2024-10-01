@@ -5,17 +5,20 @@ export const GET_TODAY_EXERCISES = gql`
     workout_days(
       where: {
         plan_id: { _eq: $workoutPlanId }
-        day_of_week: { _eq: $dayOfTheWeek }
+        day: { day: { _eq: $dayOfTheWeek } }
       }
     ) {
-      muscle_group
-      day_of_week
+      muscle_group {
+        name
+      }
       workout_day_exercises {
-        reps
-        duration
-        sets
+        id
         exercise {
           name
+          reps
+          duration
+          sets
+          weight
         }
       }
     }

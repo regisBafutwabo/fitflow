@@ -10,20 +10,5 @@ export default async function Home() {
   if (!userId) {
     redirect('/sign-in');
   }
-
-  // const handleWorkoutPlanChange = async () => {
-  //   // const selectedPlanId = event.target.value;
-  //   // if (selectedPlanId) {
-  //   //   const { data: todayExercisesData } = await client.query<GetTodayExercisesQuery>({
-  //   //     query: GET_TODAY_EXERCISES,
-  //   //     variables: { dayOfTheWeek: day, workoutPlanId: selectedPlanId },
-  //   //   });
-  //   //   // Assuming there's a function to handle the display of today's exercises
-  //   //   displayTodayExercises(todayExercisesData.workout_days);
-  //   // }
-  // };
-
-  return (
-    <Main/>
-  );
+  return <Main />;
 }
