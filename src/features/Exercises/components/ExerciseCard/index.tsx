@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
-import { Minus, Plus } from 'lucide-react';
+import {
+  Minus,
+  Plus,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -178,11 +180,11 @@ export const ExerciseCard = ({
           )}
         </div>
       </CardContent>
-      <CardFooter>
+      {/* <CardFooter>
         <Button onClick={() => handleComplete(workout.id)} className='w-full'>
           Complete
         </Button>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 };

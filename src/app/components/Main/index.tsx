@@ -1,12 +1,6 @@
 import { ExercisesList } from '@/features/Exercises/components/ExercisesList';
-import {
-  GetUserInfoQuery,
-  GetWorkoutPlansQuery,
-} from '@/gql';
-import {
-  GET_USER_INFO,
-  GET_WORKOUT_PLANS,
-} from '@/gql/common/queries.graphql';
+import { GetUserInfoQuery, GetWorkoutPlansQuery } from '@/gql';
+import { GET_USER_INFO, GET_WORKOUT_PLANS } from '@/gql/common/queries.graphql';
 import { client } from '@/lib/apollo-client';
 
 export const Main = async () => {
@@ -59,11 +53,11 @@ export const Main = async () => {
         <h1 className='text-xl md:text-3xl font-bold mb-8 md:block hidden'>
           Welcome Back {userInfoResponse.loading ? '...' : name}
         </h1>
-        <div className='flex justify-center mb-8'>
+        {/* <div className='flex justify-center mb-8'>
           <button className='bg-blue-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-blue-600 transition duration-300'>
             Create Workout Plan
           </button>
-        </div>
+        </div> */}
       </div>
       {/* Workout Plan Section */}
       <div className='flex flex-col justify-between md:items-center md:flex-row items-start mb-8'>
