@@ -12,7 +12,6 @@ const config: CodegenConfig = {
   documents: 'src/**/*.graphql.ts',
   generates: {
     'src/gql/index.ts': {
-      // preset: "client",
       plugins: [
         { typescript: {} },
         { 'typescript-operations': {} },
@@ -22,6 +21,12 @@ const config: CodegenConfig = {
           },
         },
       ],
+    },
+    'introspection.json': {
+      plugins: ['introspection'],
+      config: {
+        minify: true,
+      },
     },
   },
 };

@@ -4,6 +4,7 @@ import './globals.css';
 // Learn more: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required
 import { Inter } from 'next/font/google';
 
+import Header from '@/components/Header';
 import { cn } from '@/lib/utils';
 import { ClerkProvider } from '@clerk/nextjs';
 
@@ -29,6 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           className={cn('antialiased', fontHeading.variable, fontBody.variable)}
         >
           <Providers>
+            <Header/>
             {children}
           </Providers>
         </body>

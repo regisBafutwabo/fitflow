@@ -1,18 +1,21 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  from,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { useAuth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: process.env.HASURA_PROJECT_ENDPOINT,
-  headers: {
-    'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || '',
-  },
+  fetchOptions: { cache: 'no-store' },
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const { getToken } = useAuth();
+  // Client-side
+  const { getToken } = auth();
   const token = await getToken({ template: 'hasura' });
-
   return {
     headers: {
       ...headers,
@@ -21,9 +24,8 @@ const authLink = setContext(async (_, { headers }) => {
   };
 });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+export const client = new ApolloClient({
+  link: from([authLink, httpLink]),
   cache: new InMemoryCache(),
+  ssrMode: true,
 });
-
-export default client;
