@@ -1,6 +1,12 @@
 import { ExercisesList } from '@/features/Exercises/components/ExercisesList';
-import { GetUserInfoQuery, GetWorkoutPlansQuery } from '@/gql';
-import { GET_USER_INFO, GET_WORKOUT_PLANS } from '@/gql/common/queries.graphql';
+import {
+  GetUserInfoQuery,
+  GetWorkoutPlansQuery,
+} from '@/gql';
+import {
+  GET_USER_INFO,
+  GET_WORKOUT_PLANS,
+} from '@/gql/common/queries.graphql';
 import { client } from '@/lib/apollo-client';
 
 export const Main = async () => {
@@ -63,8 +69,7 @@ export const Main = async () => {
       <div className='flex flex-col justify-between md:items-center md:flex-row items-start mb-8'>
         <div className='mb-4 md:mb-0'>
           <h1 className='text-xl md:text-2xl font-bold '>
-            Today Schedule(
-            {today})
+            {today}
           </h1>
         </div>
         <div>

@@ -65,8 +65,6 @@ async function upsertUserInHasura(
 export async function POST(req: Request) {
   const payload = await req.text();
   // Log the received payload for debugging
-  console.log('Received payload:', payload);
-  console.log('Received Headers:', req.headers)
 
   // Create a new Svix instance with your secret.
   const wh = new Webhook(webhookSecret);
