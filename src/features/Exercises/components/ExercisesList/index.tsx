@@ -1,9 +1,22 @@
 'use client';
+import { useState } from 'react';
+
 import { Dumbbell } from 'lucide-react';
+import ReactConfetti from 'react-confetti';
 
-import { GetTodayExercisesQuery } from '@/gql';
-import { useQuery } from '@apollo/client';
+import { Button } from '@/components/ui/button';
+import {
+  CreateWorkoutLogMutation,
+  GetTodayExercisesQuery,
+  GetUserInfoQuery,
+} from '@/gql';
+import { GET_USER_INFO } from '@/gql/common/queries.graphql';
+import {
+  useMutation,
+  useQuery,
+} from '@apollo/client';
 
+import { CREATE_WORKOUT_LOG } from '../../api/mutation.graphql';
 import { GET_TODAY_EXERCISES } from '../../api/queries.graphql';
 import { ExerciseCard } from '../ExerciseCard';
 import { RestDayCard } from '../RestCard';
@@ -16,12 +29,35 @@ type ExercisesListProps = {
 };
 
 export const ExercisesList = ({ planId, day }: ExercisesListProps) => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const [completedExercises, setCompletedExercises] = useState<any[]>([]);
+  const [confettiUp, setConfettiUp] = useState(false)
+
+  
+  const {data:userInfo} = useQuery<GetUserInfoQuery>(GET_USER_INFO);
+
   const { data, loading, error } = useQuery<GetTodayExercisesQuery>(
     GET_TODAY_EXERCISES,
     {
       variables: { dayOfTheWeek: day, workoutPlanId: planId },
     }
   );
+
+  const [createWorkoutLog,{error:creatingError, loading:creating}] = useMutation<CreateWorkoutLogMutation>(CREATE_WORKOUT_LOG, {variables:{
+    userId: userInfo?.users[0]?.id,
+    exercises: completedExercises,
+    date: new Date().toISOString().split('T')[0]
+  }})
+
+  const handleComplete = async () => {
+    console.log("exercises", completedExercises)
+    await createWorkoutLog();
+    if(!creating)
+    setConfettiUp(true);
+    // Add confetti functionality here
+  }
+
   if (loading)
     return (
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
@@ -44,28 +80,41 @@ export const ExercisesList = ({ planId, day }: ExercisesListProps) => {
   }
 
   const muscleGroupName = data?.workout_days[0]?.muscle_group?.name;
-  const exercises = data?.workout_days[0]?.workout_day_exercises;
+  const workouts = data?.workout_days[0]?.workout_day_exercises;
 
   return (
+    <>
     <div className='flex flex-col gap-4'>
       <div className='flex gap-2'>
         <Dumbbell />
         <h1 className='font-bold'>{muscleGroupName}</h1>
       </div>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
-        {exercises?.map((exercise: any) => {
+        {workouts?.map((workout: any) => {
           return (
             <ExerciseCard
-              key={exercise.id}
-              workout={exercise}
-              handleChange={(id, field, value) =>
-                console.log(`Change ${field} to ${value} for exercise ${id}`)
-              }
-              handleComplete={id => console.log(`Exercise ${id} completed`)}
+              key={workout?.exercise?.id}
+              exercise={workout?.exercise}
+              setCompletedExercises={setCompletedExercises}
+              isComplete={completedExercises.some(exercise => exercise.exercise_id === workout.exercise.id)}
             />
           );
         })}
       </div>
+      <div>
+        <Button onClick={handleComplete} className='w-full bg-green-500' disabled={confettiUp || creating}>
+          {creating ?"Creating Logs...":"Complete Workout"}
+          
+        </Button>
+      </div>
     </div>
+    <ReactConfetti
+      width={width}
+      height={height}
+      numberOfPieces={300}
+      run={confettiUp}
+      onConfettiComplete={()=> console.log("DONE")}
+    />
+    </>
   );
 };

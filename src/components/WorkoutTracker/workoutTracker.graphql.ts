@@ -36,19 +36,19 @@ export const GET_WORKOUT_PLAN = gql`
   }
 `;
 
-export const CREATE_WORKOUT_LOG = gql`
-  mutation CreateWorkoutLog(
-    $userId: uuid!
-    $workoutDayId: uuid!
-    $date: date!
-  ) {
-    insert_workout_logs_one(
-      object: { user_id: $userId, workout_day_id: $workoutDayId, date: $date }
-    ) {
-      id
-    }
-  }
-`;
+// export const CREATE_WORKOUT_LOG = gql`
+//   mutation CreateWorkoutLog(
+//     $userId: uuid!
+//     $workoutDayId: uuid!
+//     $date: date!
+//   ) {
+//     insert_workout_logs_one(
+//       object: { user_id: $userId, workout_day_id: $workoutDayId, date: $date }
+//     ) {
+//       id
+//     }
+//   }
+// `;
 
 export const CREATE_EXERCISE_LOG = gql`
   mutation CreateExerciseLog(

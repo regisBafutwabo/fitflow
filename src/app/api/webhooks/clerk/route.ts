@@ -21,6 +21,7 @@ const UPSERT_USER = gql`
     $first_name: String!
     $last_name: String!
     $last_seen: timestamptz
+    $username: String
   ) {
     insert_users_one(
       object: {
@@ -29,6 +30,7 @@ const UPSERT_USER = gql`
         first_name: $first_name
         last_name: $last_name
         last_seen: $last_seen
+        username: $username
       }
       on_conflict: {
         constraint: users_clerk_id_key
@@ -45,7 +47,8 @@ async function upsertUserInHasura(
   email: string,
   lastSeen: string | null,
   first_name: string,
-  last_name: string
+  last_name: string,
+  username: string
 ) {
   try {
     console.log('UPSERT DATA', clerkId, email, lastSeen, first_name, last_name);
@@ -55,6 +58,7 @@ async function upsertUserInHasura(
       last_seen: lastSeen ? new Date(parseInt(lastSeen)).toISOString() : null,
       first_name,
       last_name,
+      username,
     });
     console.log('User upserted in Hasura');
   } catch (error) {
@@ -89,6 +93,7 @@ export async function POST(req: Request) {
       last_sign_in_at,
       first_name,
       last_name,
+      username,
     } = evt.data;
 
     console.log(`Webhook with an ID of ${clerkId} and type of ${eventType}`);
@@ -104,7 +109,8 @@ export async function POST(req: Request) {
         primaryEmail.email_address,
         last_sign_in_at,
         first_name,
-        last_name
+        last_name,
+        username
       );
     }
   }

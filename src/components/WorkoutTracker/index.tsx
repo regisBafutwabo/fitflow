@@ -1,5 +1,8 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import {
   Exercise_Logs,
@@ -45,13 +48,13 @@ const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({ userId }) => {
           ...day,
           date: '',
           exercises: day.workout_day_exercises.map(ex => ({
-            id: ex?.exercise.id,
-            name: ex?.exercise.name,
+            id: ex?.exercise?.id,
+            name: ex?.exercise?.name,
             sets: ex?.exercise?.sets,
             reps: ex?.exercise?.reps,
             weight: '',
             completed: false,
-            logs: ex.exercise.exercise_logs,
+            logs: ex?.exercise?.exercise_logs,
           })),
         }))
       );
@@ -97,28 +100,28 @@ const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({ userId }) => {
 
     if (exercise.completed) {
       try {
-        const { data: workoutLogData } = await createWorkoutLog({
-          variables: {
-            userId,
-            workoutDayId: newWorkouts[dayIndex].id,
-            date:
-              newWorkouts[dayIndex].date ||
-              new Date().toISOString().split('T')[0],
-          },
-        });
+        // const { data: workoutLogData } = await createWorkoutLog({
+        //   variables: {
+        //     userId,
+        //     workoutDayId: newWorkouts[dayIndex].id,
+        //     date:
+        //       newWorkouts[dayIndex].date ||
+        //       new Date().toISOString().split('T')[0],
+        //   },
+        // });
 
-        if (workoutLogData?.insert_workout_logs_one) {
-          await createExerciseLog({
-            variables: {
-              workoutLogId: workoutLogData.insert_workout_logs_one.id,
-              exerciseId: exercise.id,
-              weight: parseFloat(exercise.weight) || null,
-              sets: exercise.sets,
-              reps: exercise.reps,
-              completed: true,
-            },
-          });
-        }
+        // if (workoutLogData?.insert_workout_logs_one) {
+        //   await createExerciseLog({
+        //     variables: {
+        //       workoutLogId: workoutLogData.insert_workout_logs_one.id,
+        //       exerciseId: exercise.id,
+        //       weight: parseFloat(exercise.weight) || null,
+        //       sets: exercise.sets,
+        //       reps: exercise.reps,
+        //       completed: true,
+        //     },
+        //   });
+        // }
       } catch (error) {
         console.error('Error logging exercise:', error);
         exercise.completed = false;
