@@ -4195,6 +4195,7 @@ export type CreateWorkoutLogMutationVariables = Exact<{
   date?: InputMaybe<Scalars['date']['input']>;
   exercises: Array<Exercise_Logs_Insert_Input> | Exercise_Logs_Insert_Input;
   userId?: InputMaybe<Scalars['uuid']['input']>;
+  workoutDayId?: InputMaybe<Scalars['uuid']['input']>;
 }>;
 
 
@@ -4206,7 +4207,7 @@ export type GetTodayExercisesQueryVariables = Exact<{
 }>;
 
 
-export type GetTodayExercisesQuery = { __typename?: 'query_root', workout_days: Array<{ __typename?: 'workout_days', muscle_group?: { __typename?: 'muscle_groups', name?: string | null } | null, workout_day_exercises: Array<{ __typename?: 'workout_day_exercises', id: any, exercise?: { __typename?: 'exercises', id: any, name?: string | null, reps?: number | null, duration?: number | null, sets?: number | null, weight?: any | null } | null }> }> };
+export type GetTodayExercisesQuery = { __typename?: 'query_root', workout_days: Array<{ __typename?: 'workout_days', id: any, muscle_group?: { __typename?: 'muscle_groups', name?: string | null } | null, workout_day_exercises: Array<{ __typename?: 'workout_day_exercises', id: any, workout_day_id?: any | null, exercise?: { __typename?: 'exercises', id: any, name?: string | null, reps?: number | null, duration?: number | null, sets?: number | null, weight?: any | null } | null }> }> };
 
 export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4328,9 +4329,9 @@ export type CreateExerciseLogMutationHookResult = ReturnType<typeof useCreateExe
 export type CreateExerciseLogMutationResult = Apollo.MutationResult<CreateExerciseLogMutation>;
 export type CreateExerciseLogMutationOptions = Apollo.BaseMutationOptions<CreateExerciseLogMutation, CreateExerciseLogMutationVariables>;
 export const CreateWorkoutLogDocument = gql`
-    mutation CreateWorkoutLog($date: date, $exercises: [exercise_logs_insert_input!]!, $userId: uuid) {
+    mutation CreateWorkoutLog($date: date, $exercises: [exercise_logs_insert_input!]!, $userId: uuid, $workoutDayId: uuid) {
   insert_workout_logs_one(
-    object: {date: $date, exercise_logs: {data: $exercises}, user_id: $userId}
+    object: {date: $date, exercise_logs: {data: $exercises}, user_id: $userId, workout_day_id: $workoutDayId}
   ) {
     date
     exercise_logs {
@@ -4370,6 +4371,7 @@ export type CreateWorkoutLogMutationFn = Apollo.MutationFunction<CreateWorkoutLo
  *      date: // value for 'date'
  *      exercises: // value for 'exercises'
  *      userId: // value for 'userId'
+ *      workoutDayId: // value for 'workoutDayId'
  *   },
  * });
  */
@@ -4385,11 +4387,13 @@ export const GetTodayExercisesDocument = gql`
   workout_days(
     where: {plan_id: {_eq: $workoutPlanId}, day: {day: {_eq: $dayOfTheWeek}}}
   ) {
+    id
     muscle_group {
       name
     }
     workout_day_exercises {
       id
+      workout_day_id
       exercise {
         id
         name

@@ -8,11 +8,13 @@ export const GET_TODAY_EXERCISES = gql`
         day: { day: { _eq: $dayOfTheWeek } }
       }
     ) {
+      id
       muscle_group {
         name
       }
       workout_day_exercises {
         id 
+        workout_day_id
         exercise {
           id
           name
