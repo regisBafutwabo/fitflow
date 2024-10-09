@@ -1,0 +1,36 @@
+# version: '3.6'
+name: "fitflow"
+services:
+  postgres:
+    image: postgres:14
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  graphql-engine:
+    container_name: "fitflow-hasura"
+    image: hasura/graphql-engine:v2.19.0
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+    restart: always
+    environment:
+      ## PostgreSQL connection string
+      HASURA_GRAPHQL_DATABASE_URL: ${PG_DATABASE_URL}
+      ## Enable console
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      ## Enable prepared statements
+      HASURA_GRAPHQL_USE_PREPARED_STATEMENTS: "true"
+      ## Enable JWT auth
+      HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "${CLERK_JWT_PUBLIC_KEY}"}'
+      ## Admin secret for Hasura Console and API
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_ADMIN_SECRET}
+      ## Disable JWT auth for admin operations (useful for development)
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
+
+volumes:
+  db_data:

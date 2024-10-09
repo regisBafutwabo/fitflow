@@ -12,8 +12,9 @@ export const GET_TODAY_EXERCISES = gql`
         name
       }
       workout_day_exercises {
-        id
+        id 
         exercise {
+          id
           name
           reps
           duration

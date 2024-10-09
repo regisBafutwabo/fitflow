@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env.local",
+    "generate": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "lucide-react": "^0.438.0",
     "next": "14.2.6",
     "react": "^18",
+    "react-confetti": "^6.1.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "recharts": "^2.12.7",

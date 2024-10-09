@@ -15,7 +15,7 @@ export const GET_WORKOUT_PLANS = gql`
     workout_plans(
       where: {
         _or: [
-          { default: { _eq: true } }
+          { default_plan: { _eq: true } }
           { user: { clerk_id: { _eq: "X-Hasura-User-Id" } } }
           {
             favorites_workout_plans: {

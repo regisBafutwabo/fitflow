@@ -16,8 +16,8 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   date: { input: any; output: any; }
-  interval: { input: any; output: any; }
   numeric: { input: any; output: any; }
+  timestamp: { input: any; output: any; }
   timestamptz: { input: any; output: any; }
   uuid: { input: any; output: any; }
 };
@@ -102,13 +102,11 @@ export type Date_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['date']['input']>>;
 };
 
-/** Days of the week */
+/** columns and relationships of "days" */
 export type Days = {
   __typename?: 'days';
-  created_at: Scalars['timestamptz']['output'];
   day?: Maybe<Scalars['String']['output']>;
   id: Scalars['uuid']['output'];
-  updated_at: Scalars['timestamptz']['output'];
   /** An array relationship */
   workout_days: Array<Workout_Days>;
   /** An aggregate relationship */
@@ -116,7 +114,7 @@ export type Days = {
 };
 
 
-/** Days of the week */
+/** columns and relationships of "days" */
 export type DaysWorkout_DaysArgs = {
   distinct_on?: InputMaybe<Array<Workout_Days_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -126,7 +124,7 @@ export type DaysWorkout_DaysArgs = {
 };
 
 
-/** Days of the week */
+/** columns and relationships of "days" */
 export type DaysWorkout_Days_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Workout_Days_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -162,47 +160,37 @@ export type Days_Bool_Exp = {
   _and?: InputMaybe<Array<Days_Bool_Exp>>;
   _not?: InputMaybe<Days_Bool_Exp>;
   _or?: InputMaybe<Array<Days_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   day?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   workout_days?: InputMaybe<Workout_Days_Bool_Exp>;
   workout_days_aggregate?: InputMaybe<Workout_Days_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "days" */
 export enum Days_Constraint {
-  /** unique or primary key constraint on columns "day" */
-  DaysDayKey = 'days_day_key',
   /** unique or primary key constraint on columns "id" */
   DaysPkey = 'days_pkey'
 }
 
 /** input type for inserting data into table "days" */
 export type Days_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   day?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   workout_days?: InputMaybe<Workout_Days_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Days_Max_Fields = {
   __typename?: 'days_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   day?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Days_Min_Fields = {
   __typename?: 'days_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   day?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "days" */
@@ -230,10 +218,8 @@ export type Days_On_Conflict = {
 
 /** Ordering options when selecting data from "days". */
 export type Days_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   day?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   workout_days_aggregate?: InputMaybe<Workout_Days_Aggregate_Order_By>;
 };
 
@@ -245,21 +231,15 @@ export type Days_Pk_Columns_Input = {
 /** select columns of table "days" */
 export enum Days_Select_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   Day = 'day',
   /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at'
+  Id = 'id'
 }
 
 /** input type for updating data in table "days" */
 export type Days_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   day?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** Streaming cursor of the table "days" */
@@ -272,22 +252,16 @@ export type Days_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Days_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   day?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "days" */
 export enum Days_Update_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   Day = 'day',
   /** column name */
-  Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at'
+  Id = 'id'
 }
 
 export type Days_Updates = {
@@ -300,21 +274,19 @@ export type Days_Updates = {
 /** columns and relationships of "exercise_logs" */
 export type Exercise_Logs = {
   __typename?: 'exercise_logs';
-  completed: Scalars['Boolean']['output'];
-  created_at: Scalars['timestamptz']['output'];
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
-  duration?: Maybe<Scalars['interval']['output']>;
+  completed?: Maybe<Scalars['Boolean']['output']>;
+  deleted_at?: Maybe<Scalars['timestamp']['output']>;
+  duration?: Maybe<Scalars['Int']['output']>;
   /** An object relationship */
-  exercise: Exercises;
-  exercise_id: Scalars['uuid']['output'];
+  exercise?: Maybe<Exercises>;
+  exercise_id?: Maybe<Scalars['uuid']['output']>;
   id: Scalars['uuid']['output'];
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
-  updated_at: Scalars['timestamptz']['output'];
   weight?: Maybe<Scalars['numeric']['output']>;
   /** An object relationship */
-  workout_log: Workout_Logs;
-  workout_log_id: Scalars['uuid']['output'];
+  workout_log?: Maybe<Workout_Logs>;
+  workout_log_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregated selection of "exercise_logs" */
@@ -399,6 +371,7 @@ export type Exercise_Logs_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Exercise_Logs_Avg_Fields = {
   __typename?: 'exercise_logs_avg_fields';
+  duration?: Maybe<Scalars['Float']['output']>;
   reps?: Maybe<Scalars['Float']['output']>;
   sets?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -406,6 +379,7 @@ export type Exercise_Logs_Avg_Fields = {
 
 /** order by avg() on columns of table "exercise_logs" */
 export type Exercise_Logs_Avg_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -417,15 +391,13 @@ export type Exercise_Logs_Bool_Exp = {
   _not?: InputMaybe<Exercise_Logs_Bool_Exp>;
   _or?: InputMaybe<Array<Exercise_Logs_Bool_Exp>>;
   completed?: InputMaybe<Boolean_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  deleted_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  duration?: InputMaybe<Interval_Comparison_Exp>;
+  deleted_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  duration?: InputMaybe<Int_Comparison_Exp>;
   exercise?: InputMaybe<Exercises_Bool_Exp>;
   exercise_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   reps?: InputMaybe<Int_Comparison_Exp>;
   sets?: InputMaybe<Int_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   weight?: InputMaybe<Numeric_Comparison_Exp>;
   workout_log?: InputMaybe<Workout_Logs_Bool_Exp>;
   workout_log_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -439,6 +411,7 @@ export enum Exercise_Logs_Constraint {
 
 /** input type for incrementing numeric columns in table "exercise_logs" */
 export type Exercise_Logs_Inc_Input = {
+  duration?: InputMaybe<Scalars['Int']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
   weight?: InputMaybe<Scalars['numeric']['input']>;
@@ -447,15 +420,13 @@ export type Exercise_Logs_Inc_Input = {
 /** input type for inserting data into table "exercise_logs" */
 export type Exercise_Logs_Insert_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  duration?: InputMaybe<Scalars['interval']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamp']['input']>;
+  duration?: InputMaybe<Scalars['Int']['input']>;
   exercise?: InputMaybe<Exercises_Obj_Rel_Insert_Input>;
   exercise_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   weight?: InputMaybe<Scalars['numeric']['input']>;
   workout_log?: InputMaybe<Workout_Logs_Obj_Rel_Insert_Input>;
   workout_log_id?: InputMaybe<Scalars['uuid']['input']>;
@@ -464,26 +435,24 @@ export type Exercise_Logs_Insert_Input = {
 /** aggregate max on columns */
 export type Exercise_Logs_Max_Fields = {
   __typename?: 'exercise_logs_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
+  deleted_at?: Maybe<Scalars['timestamp']['output']>;
+  duration?: Maybe<Scalars['Int']['output']>;
   exercise_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   weight?: Maybe<Scalars['numeric']['output']>;
   workout_log_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "exercise_logs" */
 export type Exercise_Logs_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   deleted_at?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
   exercise_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
   workout_log_id?: InputMaybe<Order_By>;
 };
@@ -491,26 +460,24 @@ export type Exercise_Logs_Max_Order_By = {
 /** aggregate min on columns */
 export type Exercise_Logs_Min_Fields = {
   __typename?: 'exercise_logs_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
+  deleted_at?: Maybe<Scalars['timestamp']['output']>;
+  duration?: Maybe<Scalars['Int']['output']>;
   exercise_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   weight?: Maybe<Scalars['numeric']['output']>;
   workout_log_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "exercise_logs" */
 export type Exercise_Logs_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   deleted_at?: InputMaybe<Order_By>;
+  duration?: InputMaybe<Order_By>;
   exercise_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
   workout_log_id?: InputMaybe<Order_By>;
 };
@@ -534,7 +501,6 @@ export type Exercise_Logs_On_Conflict = {
 /** Ordering options when selecting data from "exercise_logs". */
 export type Exercise_Logs_Order_By = {
   completed?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
   deleted_at?: InputMaybe<Order_By>;
   duration?: InputMaybe<Order_By>;
   exercise?: InputMaybe<Exercises_Order_By>;
@@ -542,7 +508,6 @@ export type Exercise_Logs_Order_By = {
   id?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
   workout_log?: InputMaybe<Workout_Logs_Order_By>;
   workout_log_id?: InputMaybe<Order_By>;
@@ -558,8 +523,6 @@ export enum Exercise_Logs_Select_Column {
   /** column name */
   Completed = 'completed',
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   DeletedAt = 'deleted_at',
   /** column name */
   Duration = 'duration',
@@ -571,8 +534,6 @@ export enum Exercise_Logs_Select_Column {
   Reps = 'reps',
   /** column name */
   Sets = 'sets',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   Weight = 'weight',
   /** column name */
@@ -594,14 +555,12 @@ export enum Exercise_Logs_Select_Column_Exercise_Logs_Aggregate_Bool_Exp_Bool_Or
 /** input type for updating data in table "exercise_logs" */
 export type Exercise_Logs_Set_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  duration?: InputMaybe<Scalars['interval']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamp']['input']>;
+  duration?: InputMaybe<Scalars['Int']['input']>;
   exercise_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   weight?: InputMaybe<Scalars['numeric']['input']>;
   workout_log_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -609,6 +568,7 @@ export type Exercise_Logs_Set_Input = {
 /** aggregate stddev on columns */
 export type Exercise_Logs_Stddev_Fields = {
   __typename?: 'exercise_logs_stddev_fields';
+  duration?: Maybe<Scalars['Float']['output']>;
   reps?: Maybe<Scalars['Float']['output']>;
   sets?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -616,6 +576,7 @@ export type Exercise_Logs_Stddev_Fields = {
 
 /** order by stddev() on columns of table "exercise_logs" */
 export type Exercise_Logs_Stddev_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -624,6 +585,7 @@ export type Exercise_Logs_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Exercise_Logs_Stddev_Pop_Fields = {
   __typename?: 'exercise_logs_stddev_pop_fields';
+  duration?: Maybe<Scalars['Float']['output']>;
   reps?: Maybe<Scalars['Float']['output']>;
   sets?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -631,6 +593,7 @@ export type Exercise_Logs_Stddev_Pop_Fields = {
 
 /** order by stddev_pop() on columns of table "exercise_logs" */
 export type Exercise_Logs_Stddev_Pop_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -639,6 +602,7 @@ export type Exercise_Logs_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Exercise_Logs_Stddev_Samp_Fields = {
   __typename?: 'exercise_logs_stddev_samp_fields';
+  duration?: Maybe<Scalars['Float']['output']>;
   reps?: Maybe<Scalars['Float']['output']>;
   sets?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -646,6 +610,7 @@ export type Exercise_Logs_Stddev_Samp_Fields = {
 
 /** order by stddev_samp() on columns of table "exercise_logs" */
 export type Exercise_Logs_Stddev_Samp_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -662,14 +627,12 @@ export type Exercise_Logs_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Exercise_Logs_Stream_Cursor_Value_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  duration?: InputMaybe<Scalars['interval']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamp']['input']>;
+  duration?: InputMaybe<Scalars['Int']['input']>;
   exercise_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   weight?: InputMaybe<Scalars['numeric']['input']>;
   workout_log_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -677,6 +640,7 @@ export type Exercise_Logs_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Exercise_Logs_Sum_Fields = {
   __typename?: 'exercise_logs_sum_fields';
+  duration?: Maybe<Scalars['Int']['output']>;
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
   weight?: Maybe<Scalars['numeric']['output']>;
@@ -684,6 +648,7 @@ export type Exercise_Logs_Sum_Fields = {
 
 /** order by sum() on columns of table "exercise_logs" */
 export type Exercise_Logs_Sum_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -693,8 +658,6 @@ export type Exercise_Logs_Sum_Order_By = {
 export enum Exercise_Logs_Update_Column {
   /** column name */
   Completed = 'completed',
-  /** column name */
-  CreatedAt = 'created_at',
   /** column name */
   DeletedAt = 'deleted_at',
   /** column name */
@@ -707,8 +670,6 @@ export enum Exercise_Logs_Update_Column {
   Reps = 'reps',
   /** column name */
   Sets = 'sets',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   Weight = 'weight',
   /** column name */
@@ -727,6 +688,7 @@ export type Exercise_Logs_Updates = {
 /** aggregate var_pop on columns */
 export type Exercise_Logs_Var_Pop_Fields = {
   __typename?: 'exercise_logs_var_pop_fields';
+  duration?: Maybe<Scalars['Float']['output']>;
   reps?: Maybe<Scalars['Float']['output']>;
   sets?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -734,6 +696,7 @@ export type Exercise_Logs_Var_Pop_Fields = {
 
 /** order by var_pop() on columns of table "exercise_logs" */
 export type Exercise_Logs_Var_Pop_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -742,6 +705,7 @@ export type Exercise_Logs_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Exercise_Logs_Var_Samp_Fields = {
   __typename?: 'exercise_logs_var_samp_fields';
+  duration?: Maybe<Scalars['Float']['output']>;
   reps?: Maybe<Scalars['Float']['output']>;
   sets?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -749,6 +713,7 @@ export type Exercise_Logs_Var_Samp_Fields = {
 
 /** order by var_samp() on columns of table "exercise_logs" */
 export type Exercise_Logs_Var_Samp_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -757,6 +722,7 @@ export type Exercise_Logs_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Exercise_Logs_Variance_Fields = {
   __typename?: 'exercise_logs_variance_fields';
+  duration?: Maybe<Scalars['Float']['output']>;
   reps?: Maybe<Scalars['Float']['output']>;
   sets?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -764,6 +730,7 @@ export type Exercise_Logs_Variance_Fields = {
 
 /** order by variance() on columns of table "exercise_logs" */
 export type Exercise_Logs_Variance_Order_By = {
+  duration?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
@@ -772,18 +739,17 @@ export type Exercise_Logs_Variance_Order_By = {
 /** columns and relationships of "exercises" */
 export type Exercises = {
   __typename?: 'exercises';
-  created_at: Scalars['timestamptz']['output'];
   duration?: Maybe<Scalars['Int']['output']>;
   /** An array relationship */
   exercise_logs: Array<Exercise_Logs>;
   /** An aggregate relationship */
   exercise_logs_aggregate: Exercise_Logs_Aggregate;
   id: Scalars['uuid']['output'];
-  name: Scalars['String']['output'];
+  image_url?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
-  updated_at: Scalars['timestamptz']['output'];
-  weight?: Maybe<Scalars['Int']['output']>;
+  weight?: Maybe<Scalars['numeric']['output']>;
   /** An array relationship */
   workout_day_exercises: Array<Workout_Day_Exercises>;
   /** An aggregate relationship */
@@ -874,16 +840,15 @@ export type Exercises_Bool_Exp = {
   _and?: InputMaybe<Array<Exercises_Bool_Exp>>;
   _not?: InputMaybe<Exercises_Bool_Exp>;
   _or?: InputMaybe<Array<Exercises_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   duration?: InputMaybe<Int_Comparison_Exp>;
   exercise_logs?: InputMaybe<Exercise_Logs_Bool_Exp>;
   exercise_logs_aggregate?: InputMaybe<Exercise_Logs_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  image_url?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   reps?: InputMaybe<Int_Comparison_Exp>;
   sets?: InputMaybe<Int_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  weight?: InputMaybe<Int_Comparison_Exp>;
+  weight?: InputMaybe<Numeric_Comparison_Exp>;
   workout_day_exercises?: InputMaybe<Workout_Day_Exercises_Bool_Exp>;
   workout_day_exercises_aggregate?: InputMaybe<Workout_Day_Exercises_Aggregate_Bool_Exp>;
 };
@@ -899,47 +864,44 @@ export type Exercises_Inc_Input = {
   duration?: InputMaybe<Scalars['Int']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
-  weight?: InputMaybe<Scalars['Int']['input']>;
+  weight?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** input type for inserting data into table "exercises" */
 export type Exercises_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   duration?: InputMaybe<Scalars['Int']['input']>;
   exercise_logs?: InputMaybe<Exercise_Logs_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  weight?: InputMaybe<Scalars['Int']['input']>;
+  weight?: InputMaybe<Scalars['numeric']['input']>;
   workout_day_exercises?: InputMaybe<Workout_Day_Exercises_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Exercises_Max_Fields = {
   __typename?: 'exercises_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   duration?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  weight?: Maybe<Scalars['Int']['output']>;
+  weight?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** aggregate min on columns */
 export type Exercises_Min_Fields = {
   __typename?: 'exercises_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   duration?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  image_url?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  weight?: Maybe<Scalars['Int']['output']>;
+  weight?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** response of any mutation on the table "exercises" */
@@ -967,14 +929,13 @@ export type Exercises_On_Conflict = {
 
 /** Ordering options when selecting data from "exercises". */
 export type Exercises_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   duration?: InputMaybe<Order_By>;
   exercise_logs_aggregate?: InputMaybe<Exercise_Logs_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
+  image_url?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   reps?: InputMaybe<Order_By>;
   sets?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   weight?: InputMaybe<Order_By>;
   workout_day_exercises_aggregate?: InputMaybe<Workout_Day_Exercises_Aggregate_Order_By>;
 };
@@ -987,11 +948,11 @@ export type Exercises_Pk_Columns_Input = {
 /** select columns of table "exercises" */
 export enum Exercises_Select_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   Duration = 'duration',
   /** column name */
   Id = 'id',
+  /** column name */
+  ImageUrl = 'image_url',
   /** column name */
   Name = 'name',
   /** column name */
@@ -999,21 +960,18 @@ export enum Exercises_Select_Column {
   /** column name */
   Sets = 'sets',
   /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
   Weight = 'weight'
 }
 
 /** input type for updating data in table "exercises" */
 export type Exercises_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   duration?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  weight?: InputMaybe<Scalars['Int']['input']>;
+  weight?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** aggregate stddev on columns */
@@ -1053,14 +1011,13 @@ export type Exercises_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Exercises_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   duration?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  image_url?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   reps?: InputMaybe<Scalars['Int']['input']>;
   sets?: InputMaybe<Scalars['Int']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  weight?: InputMaybe<Scalars['Int']['input']>;
+  weight?: InputMaybe<Scalars['numeric']['input']>;
 };
 
 /** aggregate sum on columns */
@@ -1069,25 +1026,23 @@ export type Exercises_Sum_Fields = {
   duration?: Maybe<Scalars['Int']['output']>;
   reps?: Maybe<Scalars['Int']['output']>;
   sets?: Maybe<Scalars['Int']['output']>;
-  weight?: Maybe<Scalars['Int']['output']>;
+  weight?: Maybe<Scalars['numeric']['output']>;
 };
 
 /** update columns of table "exercises" */
 export enum Exercises_Update_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   Duration = 'duration',
   /** column name */
   Id = 'id',
+  /** column name */
+  ImageUrl = 'image_url',
   /** column name */
   Name = 'name',
   /** column name */
   Reps = 'reps',
   /** column name */
   Sets = 'sets',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   Weight = 'weight'
 }
@@ -1131,16 +1086,13 @@ export type Exercises_Variance_Fields = {
 /** columns and relationships of "favorites_workout_plans" */
 export type Favorites_Workout_Plans = {
   __typename?: 'favorites_workout_plans';
-  created_at: Scalars['timestamptz']['output'];
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   id: Scalars['uuid']['output'];
-  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid']['output'];
+  user?: Maybe<Users>;
+  user_id?: Maybe<Scalars['uuid']['output']>;
   /** An object relationship */
-  workout_plan: Workout_Plans;
-  workout_plan_id: Scalars['uuid']['output'];
+  workout_plan?: Maybe<Workout_Plans>;
+  workout_plan_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregated selection of "favorites_workout_plans" */
@@ -1195,10 +1147,7 @@ export type Favorites_Workout_Plans_Bool_Exp = {
   _and?: InputMaybe<Array<Favorites_Workout_Plans_Bool_Exp>>;
   _not?: InputMaybe<Favorites_Workout_Plans_Bool_Exp>;
   _or?: InputMaybe<Array<Favorites_Workout_Plans_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  deleted_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
   workout_plan?: InputMaybe<Workout_Plans_Bool_Exp>;
@@ -1208,17 +1157,12 @@ export type Favorites_Workout_Plans_Bool_Exp = {
 /** unique or primary key constraints on table "favorites_workout_plans" */
 export enum Favorites_Workout_Plans_Constraint {
   /** unique or primary key constraint on columns "id" */
-  FavoritesWorkoutPlansPkey = 'favorites_workout_plans_pkey',
-  /** unique or primary key constraint on columns "user_id", "workout_plan_id" */
-  FavoritesWorkoutPlansUserIdWorkoutPlanIdKey = 'favorites_workout_plans_user_id_workout_plan_id_key'
+  FavoritesWorkoutPlansPkey = 'favorites_workout_plans_pkey'
 }
 
 /** input type for inserting data into table "favorites_workout_plans" */
 export type Favorites_Workout_Plans_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['uuid']['input']>;
   workout_plan?: InputMaybe<Workout_Plans_Obj_Rel_Insert_Input>;
@@ -1228,20 +1172,14 @@ export type Favorites_Workout_Plans_Insert_Input = {
 /** aggregate max on columns */
 export type Favorites_Workout_Plans_Max_Fields = {
   __typename?: 'favorites_workout_plans_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   user_id?: Maybe<Scalars['uuid']['output']>;
   workout_plan_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "favorites_workout_plans" */
 export type Favorites_Workout_Plans_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  deleted_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
   workout_plan_id?: InputMaybe<Order_By>;
 };
@@ -1249,20 +1187,14 @@ export type Favorites_Workout_Plans_Max_Order_By = {
 /** aggregate min on columns */
 export type Favorites_Workout_Plans_Min_Fields = {
   __typename?: 'favorites_workout_plans_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   user_id?: Maybe<Scalars['uuid']['output']>;
   workout_plan_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "favorites_workout_plans" */
 export type Favorites_Workout_Plans_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  deleted_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
   workout_plan_id?: InputMaybe<Order_By>;
 };
@@ -1285,10 +1217,7 @@ export type Favorites_Workout_Plans_On_Conflict = {
 
 /** Ordering options when selecting data from "favorites_workout_plans". */
 export type Favorites_Workout_Plans_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  deleted_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
   workout_plan?: InputMaybe<Workout_Plans_Order_By>;
@@ -1303,13 +1232,7 @@ export type Favorites_Workout_Plans_Pk_Columns_Input = {
 /** select columns of table "favorites_workout_plans" */
 export enum Favorites_Workout_Plans_Select_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  DeletedAt = 'deleted_at',
-  /** column name */
   Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   UserId = 'user_id',
   /** column name */
@@ -1318,10 +1241,7 @@ export enum Favorites_Workout_Plans_Select_Column {
 
 /** input type for updating data in table "favorites_workout_plans" */
 export type Favorites_Workout_Plans_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_id?: InputMaybe<Scalars['uuid']['input']>;
   workout_plan_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -1336,10 +1256,7 @@ export type Favorites_Workout_Plans_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Favorites_Workout_Plans_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_id?: InputMaybe<Scalars['uuid']['input']>;
   workout_plan_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -1347,13 +1264,7 @@ export type Favorites_Workout_Plans_Stream_Cursor_Value_Input = {
 /** update columns of table "favorites_workout_plans" */
 export enum Favorites_Workout_Plans_Update_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  DeletedAt = 'deleted_at',
-  /** column name */
   Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   UserId = 'user_id',
   /** column name */
@@ -1367,24 +1278,11 @@ export type Favorites_Workout_Plans_Updates = {
   where: Favorites_Workout_Plans_Bool_Exp;
 };
 
-/** Boolean expression to compare columns of type "interval". All fields are combined with logical 'AND'. */
-export type Interval_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['interval']['input']>;
-  _gt?: InputMaybe<Scalars['interval']['input']>;
-  _gte?: InputMaybe<Scalars['interval']['input']>;
-  _in?: InputMaybe<Array<Scalars['interval']['input']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Scalars['interval']['input']>;
-  _lte?: InputMaybe<Scalars['interval']['input']>;
-  _neq?: InputMaybe<Scalars['interval']['input']>;
-  _nin?: InputMaybe<Array<Scalars['interval']['input']>>;
-};
-
 /** columns and relationships of "muscle_groups" */
 export type Muscle_Groups = {
   __typename?: 'muscle_groups';
   id: Scalars['uuid']['output'];
-  name: Scalars['String']['output'];
+  name?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   workout_days: Array<Workout_Days>;
   /** An aggregate relationship */
@@ -1446,8 +1344,6 @@ export type Muscle_Groups_Bool_Exp = {
 
 /** unique or primary key constraints on table "muscle_groups" */
 export enum Muscle_Groups_Constraint {
-  /** unique or primary key constraint on columns "name" */
-  MuscleGroupsNameKey = 'muscle_groups_name_key',
   /** unique or primary key constraint on columns "id" */
   MuscleGroupsPkey = 'muscle_groups_pkey'
 }
@@ -2867,6 +2763,19 @@ export type Subscription_RootWorkout_Plans_StreamArgs = {
   where?: InputMaybe<Workout_Plans_Bool_Exp>;
 };
 
+/** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+export type Timestamp_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamp']['input']>;
+  _gt?: InputMaybe<Scalars['timestamp']['input']>;
+  _gte?: InputMaybe<Scalars['timestamp']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamp']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamp']['input']>;
+  _lte?: InputMaybe<Scalars['timestamp']['input']>;
+  _neq?: InputMaybe<Scalars['timestamp']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamp']['input']>>;
+};
+
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -2883,9 +2792,9 @@ export type Timestamptz_Comparison_Exp = {
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users';
-  clerk_id: Scalars['String']['output'];
-  created_at: Scalars['timestamptz']['output'];
-  email: Scalars['String']['output'];
+  clerk_id?: Maybe<Scalars['String']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   favorites_workout_plans: Array<Favorites_Workout_Plans>;
   /** An aggregate relationship */
@@ -2893,9 +2802,9 @@ export type Users = {
   first_name?: Maybe<Scalars['String']['output']>;
   id: Scalars['uuid']['output'];
   last_name?: Maybe<Scalars['String']['output']>;
-  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  last_seen?: Maybe<Scalars['timestamp']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  updated_at: Scalars['timestamptz']['output'];
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   username?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   workout_logs: Array<Workout_Logs>;
@@ -3002,7 +2911,7 @@ export type Users_Bool_Exp = {
   first_name?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   last_name?: InputMaybe<String_Comparison_Exp>;
-  last_seen?: InputMaybe<Timestamptz_Comparison_Exp>;
+  last_seen?: InputMaybe<Timestamp_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   username?: InputMaybe<String_Comparison_Exp>;
@@ -3014,14 +2923,8 @@ export type Users_Bool_Exp = {
 
 /** unique or primary key constraints on table "users" */
 export enum Users_Constraint {
-  /** unique or primary key constraint on columns "clerk_id" */
-  UsersClerkIdKey = 'users_clerk_id_key',
-  /** unique or primary key constraint on columns "email" */
-  UsersEmailKey = 'users_email_key',
   /** unique or primary key constraint on columns "id" */
-  UsersPkey = 'users_pkey',
-  /** unique or primary key constraint on columns "username" */
-  UsersUsernameKey = 'users_username_key'
+  UsersPkey = 'users_pkey'
 }
 
 /** input type for inserting data into table "users" */
@@ -3033,7 +2936,7 @@ export type Users_Insert_Input = {
   first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   last_name?: InputMaybe<Scalars['String']['input']>;
-  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamp']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
@@ -3050,7 +2953,7 @@ export type Users_Max_Fields = {
   first_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   last_name?: Maybe<Scalars['String']['output']>;
-  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  last_seen?: Maybe<Scalars['timestamp']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   username?: Maybe<Scalars['String']['output']>;
@@ -3065,7 +2968,7 @@ export type Users_Min_Fields = {
   first_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   last_name?: Maybe<Scalars['String']['output']>;
-  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  last_seen?: Maybe<Scalars['timestamp']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   username?: Maybe<Scalars['String']['output']>;
@@ -3148,7 +3051,7 @@ export type Users_Set_Input = {
   first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   last_name?: InputMaybe<Scalars['String']['input']>;
-  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamp']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
@@ -3170,7 +3073,7 @@ export type Users_Stream_Cursor_Value_Input = {
   first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   last_name?: InputMaybe<Scalars['String']['input']>;
-  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamp']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
@@ -3223,15 +3126,13 @@ export type Uuid_Comparison_Exp = {
 /** columns and relationships of "workout_day_exercises" */
 export type Workout_Day_Exercises = {
   __typename?: 'workout_day_exercises';
-  created_at: Scalars['timestamptz']['output'];
   /** An object relationship */
-  exercise: Exercises;
-  exercise_id: Scalars['uuid']['output'];
+  exercise?: Maybe<Exercises>;
+  exercise_id?: Maybe<Scalars['uuid']['output']>;
   id: Scalars['uuid']['output'];
-  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
-  workout_day: Workout_Days;
-  workout_day_id: Scalars['uuid']['output'];
+  workout_day?: Maybe<Workout_Days>;
+  workout_day_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregated selection of "workout_day_exercises" */
@@ -3286,11 +3187,9 @@ export type Workout_Day_Exercises_Bool_Exp = {
   _and?: InputMaybe<Array<Workout_Day_Exercises_Bool_Exp>>;
   _not?: InputMaybe<Workout_Day_Exercises_Bool_Exp>;
   _or?: InputMaybe<Array<Workout_Day_Exercises_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   exercise?: InputMaybe<Exercises_Bool_Exp>;
   exercise_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   workout_day?: InputMaybe<Workout_Days_Bool_Exp>;
   workout_day_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
@@ -3303,11 +3202,9 @@ export enum Workout_Day_Exercises_Constraint {
 
 /** input type for inserting data into table "workout_day_exercises" */
 export type Workout_Day_Exercises_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   exercise?: InputMaybe<Exercises_Obj_Rel_Insert_Input>;
   exercise_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   workout_day?: InputMaybe<Workout_Days_Obj_Rel_Insert_Input>;
   workout_day_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -3315,38 +3212,30 @@ export type Workout_Day_Exercises_Insert_Input = {
 /** aggregate max on columns */
 export type Workout_Day_Exercises_Max_Fields = {
   __typename?: 'workout_day_exercises_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   exercise_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   workout_day_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "workout_day_exercises" */
 export type Workout_Day_Exercises_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   exercise_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   workout_day_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Workout_Day_Exercises_Min_Fields = {
   __typename?: 'workout_day_exercises_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   exercise_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   workout_day_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "workout_day_exercises" */
 export type Workout_Day_Exercises_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   exercise_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   workout_day_id?: InputMaybe<Order_By>;
 };
 
@@ -3368,11 +3257,9 @@ export type Workout_Day_Exercises_On_Conflict = {
 
 /** Ordering options when selecting data from "workout_day_exercises". */
 export type Workout_Day_Exercises_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   exercise?: InputMaybe<Exercises_Order_By>;
   exercise_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   workout_day?: InputMaybe<Workout_Days_Order_By>;
   workout_day_id?: InputMaybe<Order_By>;
 };
@@ -3385,23 +3272,17 @@ export type Workout_Day_Exercises_Pk_Columns_Input = {
 /** select columns of table "workout_day_exercises" */
 export enum Workout_Day_Exercises_Select_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   ExerciseId = 'exercise_id',
   /** column name */
   Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   WorkoutDayId = 'workout_day_id'
 }
 
 /** input type for updating data in table "workout_day_exercises" */
 export type Workout_Day_Exercises_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   exercise_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   workout_day_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -3415,23 +3296,17 @@ export type Workout_Day_Exercises_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Workout_Day_Exercises_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   exercise_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   workout_day_id?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "workout_day_exercises" */
 export enum Workout_Day_Exercises_Update_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   ExerciseId = 'exercise_id',
   /** column name */
   Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   WorkoutDayId = 'workout_day_id'
 }
@@ -3446,7 +3321,6 @@ export type Workout_Day_Exercises_Updates = {
 /** columns and relationships of "workout_days" */
 export type Workout_Days = {
   __typename?: 'workout_days';
-  created_at: Scalars['timestamptz']['output'];
   /** An object relationship */
   day?: Maybe<Days>;
   day_id?: Maybe<Scalars['uuid']['output']>;
@@ -3454,8 +3328,7 @@ export type Workout_Days = {
   /** An object relationship */
   muscle_group?: Maybe<Muscle_Groups>;
   muscle_group_id?: Maybe<Scalars['uuid']['output']>;
-  plan_id: Scalars['uuid']['output'];
-  updated_at: Scalars['timestamptz']['output'];
+  plan_id?: Maybe<Scalars['uuid']['output']>;
   /** An array relationship */
   workout_day_exercises: Array<Workout_Day_Exercises>;
   /** An aggregate relationship */
@@ -3465,7 +3338,7 @@ export type Workout_Days = {
   /** An aggregate relationship */
   workout_logs_aggregate: Workout_Logs_Aggregate;
   /** An object relationship */
-  workout_plan: Workout_Plans;
+  workout_plan?: Maybe<Workout_Plans>;
 };
 
 
@@ -3560,14 +3433,12 @@ export type Workout_Days_Bool_Exp = {
   _and?: InputMaybe<Array<Workout_Days_Bool_Exp>>;
   _not?: InputMaybe<Workout_Days_Bool_Exp>;
   _or?: InputMaybe<Array<Workout_Days_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   day?: InputMaybe<Days_Bool_Exp>;
   day_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   muscle_group?: InputMaybe<Muscle_Groups_Bool_Exp>;
   muscle_group_id?: InputMaybe<Uuid_Comparison_Exp>;
   plan_id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   workout_day_exercises?: InputMaybe<Workout_Day_Exercises_Bool_Exp>;
   workout_day_exercises_aggregate?: InputMaybe<Workout_Day_Exercises_Aggregate_Bool_Exp>;
   workout_logs?: InputMaybe<Workout_Logs_Bool_Exp>;
@@ -3583,14 +3454,12 @@ export enum Workout_Days_Constraint {
 
 /** input type for inserting data into table "workout_days" */
 export type Workout_Days_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   day?: InputMaybe<Days_Obj_Rel_Insert_Input>;
   day_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   muscle_group?: InputMaybe<Muscle_Groups_Obj_Rel_Insert_Input>;
   muscle_group_id?: InputMaybe<Scalars['uuid']['input']>;
   plan_id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   workout_day_exercises?: InputMaybe<Workout_Day_Exercises_Arr_Rel_Insert_Input>;
   workout_logs?: InputMaybe<Workout_Logs_Arr_Rel_Insert_Input>;
   workout_plan?: InputMaybe<Workout_Plans_Obj_Rel_Insert_Input>;
@@ -3599,43 +3468,35 @@ export type Workout_Days_Insert_Input = {
 /** aggregate max on columns */
 export type Workout_Days_Max_Fields = {
   __typename?: 'workout_days_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   day_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   muscle_group_id?: Maybe<Scalars['uuid']['output']>;
   plan_id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by max() on columns of table "workout_days" */
 export type Workout_Days_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   day_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   muscle_group_id?: InputMaybe<Order_By>;
   plan_id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Workout_Days_Min_Fields = {
   __typename?: 'workout_days_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   day_id?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   muscle_group_id?: Maybe<Scalars['uuid']['output']>;
   plan_id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by min() on columns of table "workout_days" */
 export type Workout_Days_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   day_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   muscle_group_id?: InputMaybe<Order_By>;
   plan_id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "workout_days" */
@@ -3663,14 +3524,12 @@ export type Workout_Days_On_Conflict = {
 
 /** Ordering options when selecting data from "workout_days". */
 export type Workout_Days_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   day?: InputMaybe<Days_Order_By>;
   day_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   muscle_group?: InputMaybe<Muscle_Groups_Order_By>;
   muscle_group_id?: InputMaybe<Order_By>;
   plan_id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   workout_day_exercises_aggregate?: InputMaybe<Workout_Day_Exercises_Aggregate_Order_By>;
   workout_logs_aggregate?: InputMaybe<Workout_Logs_Aggregate_Order_By>;
   workout_plan?: InputMaybe<Workout_Plans_Order_By>;
@@ -3684,27 +3543,21 @@ export type Workout_Days_Pk_Columns_Input = {
 /** select columns of table "workout_days" */
 export enum Workout_Days_Select_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   DayId = 'day_id',
   /** column name */
   Id = 'id',
   /** column name */
   MuscleGroupId = 'muscle_group_id',
   /** column name */
-  PlanId = 'plan_id',
-  /** column name */
-  UpdatedAt = 'updated_at'
+  PlanId = 'plan_id'
 }
 
 /** input type for updating data in table "workout_days" */
 export type Workout_Days_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   day_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   muscle_group_id?: InputMaybe<Scalars['uuid']['input']>;
   plan_id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** Streaming cursor of the table "workout_days" */
@@ -3717,18 +3570,14 @@ export type Workout_Days_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Workout_Days_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   day_id?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   muscle_group_id?: InputMaybe<Scalars['uuid']['input']>;
   plan_id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "workout_days" */
 export enum Workout_Days_Update_Column {
-  /** column name */
-  CreatedAt = 'created_at',
   /** column name */
   DayId = 'day_id',
   /** column name */
@@ -3736,9 +3585,7 @@ export enum Workout_Days_Update_Column {
   /** column name */
   MuscleGroupId = 'muscle_group_id',
   /** column name */
-  PlanId = 'plan_id',
-  /** column name */
-  UpdatedAt = 'updated_at'
+  PlanId = 'plan_id'
 }
 
 export type Workout_Days_Updates = {
@@ -3751,21 +3598,19 @@ export type Workout_Days_Updates = {
 /** columns and relationships of "workout_logs" */
 export type Workout_Logs = {
   __typename?: 'workout_logs';
-  created_at: Scalars['timestamptz']['output'];
-  date: Scalars['date']['output'];
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
+  date?: Maybe<Scalars['date']['output']>;
+  deleted_at?: Maybe<Scalars['timestamp']['output']>;
   /** An array relationship */
   exercise_logs: Array<Exercise_Logs>;
   /** An aggregate relationship */
   exercise_logs_aggregate: Exercise_Logs_Aggregate;
   id: Scalars['uuid']['output'];
-  updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid']['output'];
+  user?: Maybe<Users>;
+  user_id?: Maybe<Scalars['uuid']['output']>;
   /** An object relationship */
-  workout_day: Workout_Days;
-  workout_day_id: Scalars['uuid']['output'];
+  workout_day?: Maybe<Workout_Days>;
+  workout_day_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 
@@ -3840,13 +3685,11 @@ export type Workout_Logs_Bool_Exp = {
   _and?: InputMaybe<Array<Workout_Logs_Bool_Exp>>;
   _not?: InputMaybe<Workout_Logs_Bool_Exp>;
   _or?: InputMaybe<Array<Workout_Logs_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   date?: InputMaybe<Date_Comparison_Exp>;
-  deleted_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  deleted_at?: InputMaybe<Timestamp_Comparison_Exp>;
   exercise_logs?: InputMaybe<Exercise_Logs_Bool_Exp>;
   exercise_logs_aggregate?: InputMaybe<Exercise_Logs_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
   workout_day?: InputMaybe<Workout_Days_Bool_Exp>;
@@ -3861,12 +3704,10 @@ export enum Workout_Logs_Constraint {
 
 /** input type for inserting data into table "workout_logs" */
 export type Workout_Logs_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamp']['input']>;
   exercise_logs?: InputMaybe<Exercise_Logs_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['uuid']['input']>;
   workout_day?: InputMaybe<Workout_Days_Obj_Rel_Insert_Input>;
@@ -3876,22 +3717,18 @@ export type Workout_Logs_Insert_Input = {
 /** aggregate max on columns */
 export type Workout_Logs_Max_Fields = {
   __typename?: 'workout_logs_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   date?: Maybe<Scalars['date']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
+  deleted_at?: Maybe<Scalars['timestamp']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   user_id?: Maybe<Scalars['uuid']['output']>;
   workout_day_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "workout_logs" */
 export type Workout_Logs_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   deleted_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
   workout_day_id?: InputMaybe<Order_By>;
 };
@@ -3899,22 +3736,18 @@ export type Workout_Logs_Max_Order_By = {
 /** aggregate min on columns */
 export type Workout_Logs_Min_Fields = {
   __typename?: 'workout_logs_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']['output']>;
   date?: Maybe<Scalars['date']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
+  deleted_at?: Maybe<Scalars['timestamp']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
-  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   user_id?: Maybe<Scalars['uuid']['output']>;
   workout_day_id?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "workout_logs" */
 export type Workout_Logs_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   deleted_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
   workout_day_id?: InputMaybe<Order_By>;
 };
@@ -3944,12 +3777,10 @@ export type Workout_Logs_On_Conflict = {
 
 /** Ordering options when selecting data from "workout_logs". */
 export type Workout_Logs_Order_By = {
-  created_at?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   deleted_at?: InputMaybe<Order_By>;
   exercise_logs_aggregate?: InputMaybe<Exercise_Logs_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
   workout_day?: InputMaybe<Workout_Days_Order_By>;
@@ -3964,15 +3795,11 @@ export type Workout_Logs_Pk_Columns_Input = {
 /** select columns of table "workout_logs" */
 export enum Workout_Logs_Select_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   Date = 'date',
   /** column name */
   DeletedAt = 'deleted_at',
   /** column name */
   Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   UserId = 'user_id',
   /** column name */
@@ -3981,11 +3808,9 @@ export enum Workout_Logs_Select_Column {
 
 /** input type for updating data in table "workout_logs" */
 export type Workout_Logs_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamp']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_id?: InputMaybe<Scalars['uuid']['input']>;
   workout_day_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -4000,11 +3825,9 @@ export type Workout_Logs_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Workout_Logs_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamp']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_id?: InputMaybe<Scalars['uuid']['input']>;
   workout_day_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -4012,15 +3835,11 @@ export type Workout_Logs_Stream_Cursor_Value_Input = {
 /** update columns of table "workout_logs" */
 export enum Workout_Logs_Update_Column {
   /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
   Date = 'date',
   /** column name */
   DeletedAt = 'deleted_at',
   /** column name */
   Id = 'id',
-  /** column name */
-  UpdatedAt = 'updated_at',
   /** column name */
   UserId = 'user_id',
   /** column name */
@@ -4037,19 +3856,18 @@ export type Workout_Logs_Updates = {
 /** columns and relationships of "workout_plans" */
 export type Workout_Plans = {
   __typename?: 'workout_plans';
-  created_at: Scalars['timestamptz']['output'];
-  default?: Maybe<Scalars['Boolean']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  default_plan?: Maybe<Scalars['Boolean']['output']>;
   /** An array relationship */
   favorites_workout_plans: Array<Favorites_Workout_Plans>;
   /** An aggregate relationship */
   favorites_workout_plans_aggregate: Favorites_Workout_Plans_Aggregate;
   id: Scalars['uuid']['output'];
-  name: Scalars['String']['output'];
-  updated_at: Scalars['timestamptz']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** An object relationship */
-  user: Users;
-  user_id: Scalars['uuid']['output'];
+  user?: Maybe<Users>;
+  user_id?: Maybe<Scalars['uuid']['output']>;
   /** An array relationship */
   workout_days: Array<Workout_Days>;
   /** An aggregate relationship */
@@ -4165,8 +3983,7 @@ export type Workout_Plans_Bool_Exp = {
   _not?: InputMaybe<Workout_Plans_Bool_Exp>;
   _or?: InputMaybe<Array<Workout_Plans_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  default?: InputMaybe<Boolean_Comparison_Exp>;
-  deleted_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  default_plan?: InputMaybe<Boolean_Comparison_Exp>;
   favorites_workout_plans?: InputMaybe<Favorites_Workout_Plans_Bool_Exp>;
   favorites_workout_plans_aggregate?: InputMaybe<Favorites_Workout_Plans_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -4187,8 +4004,7 @@ export enum Workout_Plans_Constraint {
 /** input type for inserting data into table "workout_plans" */
 export type Workout_Plans_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  default?: InputMaybe<Scalars['Boolean']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  default_plan?: InputMaybe<Scalars['Boolean']['input']>;
   favorites_workout_plans?: InputMaybe<Favorites_Workout_Plans_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4202,7 +4018,6 @@ export type Workout_Plans_Insert_Input = {
 export type Workout_Plans_Max_Fields = {
   __typename?: 'workout_plans_max_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
@@ -4212,7 +4027,6 @@ export type Workout_Plans_Max_Fields = {
 /** order by max() on columns of table "workout_plans" */
 export type Workout_Plans_Max_Order_By = {
   created_at?: InputMaybe<Order_By>;
-  deleted_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -4223,7 +4037,6 @@ export type Workout_Plans_Max_Order_By = {
 export type Workout_Plans_Min_Fields = {
   __typename?: 'workout_plans_min_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
-  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
@@ -4233,7 +4046,6 @@ export type Workout_Plans_Min_Fields = {
 /** order by min() on columns of table "workout_plans" */
 export type Workout_Plans_Min_Order_By = {
   created_at?: InputMaybe<Order_By>;
-  deleted_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -4266,8 +4078,7 @@ export type Workout_Plans_On_Conflict = {
 /** Ordering options when selecting data from "workout_plans". */
 export type Workout_Plans_Order_By = {
   created_at?: InputMaybe<Order_By>;
-  default?: InputMaybe<Order_By>;
-  deleted_at?: InputMaybe<Order_By>;
+  default_plan?: InputMaybe<Order_By>;
   favorites_workout_plans_aggregate?: InputMaybe<Favorites_Workout_Plans_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -4287,9 +4098,7 @@ export enum Workout_Plans_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
-  Default = 'default',
-  /** column name */
-  DeletedAt = 'deleted_at',
+  DefaultPlan = 'default_plan',
   /** column name */
   Id = 'id',
   /** column name */
@@ -4303,20 +4112,19 @@ export enum Workout_Plans_Select_Column {
 /** select "workout_plans_aggregate_bool_exp_bool_and_arguments_columns" columns of table "workout_plans" */
 export enum Workout_Plans_Select_Column_Workout_Plans_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
   /** column name */
-  Default = 'default'
+  DefaultPlan = 'default_plan'
 }
 
 /** select "workout_plans_aggregate_bool_exp_bool_or_arguments_columns" columns of table "workout_plans" */
 export enum Workout_Plans_Select_Column_Workout_Plans_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
   /** column name */
-  Default = 'default'
+  DefaultPlan = 'default_plan'
 }
 
 /** input type for updating data in table "workout_plans" */
 export type Workout_Plans_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  default?: InputMaybe<Scalars['Boolean']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  default_plan?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -4334,8 +4142,7 @@ export type Workout_Plans_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Workout_Plans_Stream_Cursor_Value_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  default?: InputMaybe<Scalars['Boolean']['input']>;
-  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  default_plan?: InputMaybe<Scalars['Boolean']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -4347,9 +4154,7 @@ export enum Workout_Plans_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
-  Default = 'default',
-  /** column name */
-  DeletedAt = 'deleted_at',
+  DefaultPlan = 'default_plan',
   /** column name */
   Id = 'id',
   /** column name */
@@ -4372,16 +4177,7 @@ export type GetWorkoutPlanQueryVariables = Exact<{
 }>;
 
 
-export type GetWorkoutPlanQuery = { __typename?: 'query_root', workout_plans: Array<{ __typename?: 'workout_plans', id: any, name: string, workout_days: Array<{ __typename?: 'workout_days', day?: { __typename?: 'days', day?: string | null } | null, muscle_group?: { __typename?: 'muscle_groups', name: string } | null, workout_day_exercises: Array<{ __typename?: 'workout_day_exercises', id: any, exercise: { __typename?: 'exercises', id: any, name: string, sets?: number | null, reps?: number | null, exercise_logs: Array<{ __typename?: 'exercise_logs', completed: boolean, exercise_id: any, reps?: number | null, sets?: number | null, weight?: any | null, workout_log: { __typename?: 'workout_logs', date: any } }> } }> }> }> };
-
-export type CreateWorkoutLogMutationVariables = Exact<{
-  userId: Scalars['uuid']['input'];
-  workoutDayId: Scalars['uuid']['input'];
-  date: Scalars['date']['input'];
-}>;
-
-
-export type CreateWorkoutLogMutation = { __typename?: 'mutation_root', insert_workout_logs_one?: { __typename?: 'workout_logs', id: any } | null };
+export type GetWorkoutPlanQuery = { __typename?: 'query_root', workout_plans: Array<{ __typename?: 'workout_plans', id: any, name?: string | null, workout_days: Array<{ __typename?: 'workout_days', day?: { __typename?: 'days', day?: string | null } | null, muscle_group?: { __typename?: 'muscle_groups', name?: string | null } | null, workout_day_exercises: Array<{ __typename?: 'workout_day_exercises', id: any, exercise?: { __typename?: 'exercises', id: any, name?: string | null, sets?: number | null, reps?: number | null, exercise_logs: Array<{ __typename?: 'exercise_logs', completed?: boolean | null, exercise_id?: any | null, reps?: number | null, sets?: number | null, weight?: any | null, workout_log?: { __typename?: 'workout_logs', date?: any | null } | null }> } | null }> }> }> };
 
 export type CreateExerciseLogMutationVariables = Exact<{
   workoutLogId: Scalars['uuid']['input'];
@@ -4395,23 +4191,32 @@ export type CreateExerciseLogMutationVariables = Exact<{
 
 export type CreateExerciseLogMutation = { __typename?: 'mutation_root', insert_exercise_logs_one?: { __typename?: 'exercise_logs', id: any } | null };
 
+export type CreateWorkoutLogMutationVariables = Exact<{
+  date?: InputMaybe<Scalars['date']['input']>;
+  exercises: Array<Exercise_Logs_Insert_Input> | Exercise_Logs_Insert_Input;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+}>;
+
+
+export type CreateWorkoutLogMutation = { __typename?: 'mutation_root', insert_workout_logs_one?: { __typename?: 'workout_logs', date?: any | null, id: any, user_id?: any | null, exercise_logs: Array<{ __typename?: 'exercise_logs', reps?: number | null, sets?: number | null, weight?: any | null, duration?: number | null, exercise?: { __typename?: 'exercises', name?: string | null } | null }>, workout_day?: { __typename?: 'workout_days', day?: { __typename?: 'days', day?: string | null } | null } | null } | null };
+
 export type GetTodayExercisesQueryVariables = Exact<{
   dayOfTheWeek: Scalars['String']['input'];
   workoutPlanId: Scalars['uuid']['input'];
 }>;
 
 
-export type GetTodayExercisesQuery = { __typename?: 'query_root', workout_days: Array<{ __typename?: 'workout_days', muscle_group?: { __typename?: 'muscle_groups', name: string } | null, workout_day_exercises: Array<{ __typename?: 'workout_day_exercises', id: any, exercise: { __typename?: 'exercises', name: string, reps?: number | null, duration?: number | null, sets?: number | null, weight?: number | null } }> }> };
+export type GetTodayExercisesQuery = { __typename?: 'query_root', workout_days: Array<{ __typename?: 'workout_days', muscle_group?: { __typename?: 'muscle_groups', name?: string | null } | null, workout_day_exercises: Array<{ __typename?: 'workout_day_exercises', id: any, exercise?: { __typename?: 'exercises', id: any, name?: string | null, reps?: number | null, duration?: number | null, sets?: number | null, weight?: any | null } | null }> }> };
 
 export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserInfoQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: any, first_name?: string | null, email: string }> };
+export type GetUserInfoQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: any, first_name?: string | null, email?: string | null }> };
 
 export type GetWorkoutPlansQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetWorkoutPlansQuery = { __typename?: 'query_root', workout_plans: Array<{ __typename?: 'workout_plans', name: string, id: any, user: { __typename?: 'users', id: any, first_name?: string | null, last_name?: string | null } }>, favorites_workout_plans: Array<{ __typename?: 'favorites_workout_plans', workout_plan: { __typename?: 'workout_plans', name: string, id: any, user: { __typename?: 'users', first_name?: string | null, last_name?: string | null } } }> };
+export type GetWorkoutPlansQuery = { __typename?: 'query_root', workout_plans: Array<{ __typename?: 'workout_plans', name?: string | null, id: any, user?: { __typename?: 'users', id: any, first_name?: string | null, last_name?: string | null } | null }>, favorites_workout_plans: Array<{ __typename?: 'favorites_workout_plans', workout_plan?: { __typename?: 'workout_plans', name?: string | null, id: any, user?: { __typename?: 'users', first_name?: string | null, last_name?: string | null } | null } | null }> };
 
 
 export const GetWorkoutPlanDocument = gql`
@@ -4482,43 +4287,6 @@ export type GetWorkoutPlanQueryHookResult = ReturnType<typeof useGetWorkoutPlanQ
 export type GetWorkoutPlanLazyQueryHookResult = ReturnType<typeof useGetWorkoutPlanLazyQuery>;
 export type GetWorkoutPlanSuspenseQueryHookResult = ReturnType<typeof useGetWorkoutPlanSuspenseQuery>;
 export type GetWorkoutPlanQueryResult = Apollo.QueryResult<GetWorkoutPlanQuery, GetWorkoutPlanQueryVariables>;
-export const CreateWorkoutLogDocument = gql`
-    mutation CreateWorkoutLog($userId: uuid!, $workoutDayId: uuid!, $date: date!) {
-  insert_workout_logs_one(
-    object: {user_id: $userId, workout_day_id: $workoutDayId, date: $date}
-  ) {
-    id
-  }
-}
-    `;
-export type CreateWorkoutLogMutationFn = Apollo.MutationFunction<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>;
-
-/**
- * __useCreateWorkoutLogMutation__
- *
- * To run a mutation, you first call `useCreateWorkoutLogMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateWorkoutLogMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createWorkoutLogMutation, { data, loading, error }] = useCreateWorkoutLogMutation({
- *   variables: {
- *      userId: // value for 'userId'
- *      workoutDayId: // value for 'workoutDayId'
- *      date: // value for 'date'
- *   },
- * });
- */
-export function useCreateWorkoutLogMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>(CreateWorkoutLogDocument, options);
-      }
-export type CreateWorkoutLogMutationHookResult = ReturnType<typeof useCreateWorkoutLogMutation>;
-export type CreateWorkoutLogMutationResult = Apollo.MutationResult<CreateWorkoutLogMutation>;
-export type CreateWorkoutLogMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>;
 export const CreateExerciseLogDocument = gql`
     mutation CreateExerciseLog($workoutLogId: uuid!, $exerciseId: uuid!, $weight: numeric, $sets: Int, $reps: Int, $completed: Boolean!) {
   insert_exercise_logs_one(
@@ -4559,6 +4327,59 @@ export function useCreateExerciseLogMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateExerciseLogMutationHookResult = ReturnType<typeof useCreateExerciseLogMutation>;
 export type CreateExerciseLogMutationResult = Apollo.MutationResult<CreateExerciseLogMutation>;
 export type CreateExerciseLogMutationOptions = Apollo.BaseMutationOptions<CreateExerciseLogMutation, CreateExerciseLogMutationVariables>;
+export const CreateWorkoutLogDocument = gql`
+    mutation CreateWorkoutLog($date: date, $exercises: [exercise_logs_insert_input!]!, $userId: uuid) {
+  insert_workout_logs_one(
+    object: {date: $date, exercise_logs: {data: $exercises}, user_id: $userId}
+  ) {
+    date
+    exercise_logs {
+      exercise {
+        name
+      }
+      reps
+      sets
+      weight
+      duration
+    }
+    id
+    user_id
+    workout_day {
+      day {
+        day
+      }
+    }
+  }
+}
+    `;
+export type CreateWorkoutLogMutationFn = Apollo.MutationFunction<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>;
+
+/**
+ * __useCreateWorkoutLogMutation__
+ *
+ * To run a mutation, you first call `useCreateWorkoutLogMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorkoutLogMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWorkoutLogMutation, { data, loading, error }] = useCreateWorkoutLogMutation({
+ *   variables: {
+ *      date: // value for 'date'
+ *      exercises: // value for 'exercises'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useCreateWorkoutLogMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>(CreateWorkoutLogDocument, options);
+      }
+export type CreateWorkoutLogMutationHookResult = ReturnType<typeof useCreateWorkoutLogMutation>;
+export type CreateWorkoutLogMutationResult = Apollo.MutationResult<CreateWorkoutLogMutation>;
+export type CreateWorkoutLogMutationOptions = Apollo.BaseMutationOptions<CreateWorkoutLogMutation, CreateWorkoutLogMutationVariables>;
 export const GetTodayExercisesDocument = gql`
     query GetTodayExercises($dayOfTheWeek: String!, $workoutPlanId: uuid!) {
   workout_days(
@@ -4570,6 +4391,7 @@ export const GetTodayExercisesDocument = gql`
     workout_day_exercises {
       id
       exercise {
+        id
         name
         reps
         duration
@@ -4658,7 +4480,7 @@ export type GetUserInfoQueryResult = Apollo.QueryResult<GetUserInfoQuery, GetUse
 export const GetWorkoutPlansDocument = gql`
     query GetWorkoutPlans {
   workout_plans(
-    where: {_or: [{default: {_eq: true}}, {user: {clerk_id: {_eq: "X-Hasura-User-Id"}}}, {favorites_workout_plans: {user: {clerk_id: {_eq: "X-Hasura-User-Id"}}}}]}
+    where: {_or: [{default_plan: {_eq: true}}, {user: {clerk_id: {_eq: "X-Hasura-User-Id"}}}, {favorites_workout_plans: {user: {clerk_id: {_eq: "X-Hasura-User-Id"}}}}]}
   ) {
     name
     id
