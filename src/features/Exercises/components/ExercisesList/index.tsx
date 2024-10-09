@@ -47,7 +47,8 @@ export const ExercisesList = ({ planId, day }: ExercisesListProps) => {
   const [createWorkoutLog,{error:creatingError, loading:creating}] = useMutation<CreateWorkoutLogMutation>(CREATE_WORKOUT_LOG, {variables:{
     userId: userInfo?.users[0]?.id,
     exercises: completedExercises,
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    workoutDayId: data?.workout_days[0]?.id
   }})
 
   const handleComplete = async () => {
